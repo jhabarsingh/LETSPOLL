@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Let's poll</title>
+	<link rel="icon" href="{% static 'img/survey.png' %}" type="image/png" sizes="16x16">
+	<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+	{% block content %}
+	{% endblock %}
+
+	<script>
+		function getCookie(name) {
+		    let cookieValue = null;
+		    if (document.cookie && document.cookie !== '') {
+		        const cookies = document.cookie.split(';');
+		        for (let i = 0; i < cookies.length; i++) {
+		            const cookie = cookies[i].trim();
+		            // Does this cookie string begin with the name we want?
+		            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+		                break;
+		            }
+		        }
+		    }
+		    return cookieValue;
+		}
+		const csrftoken = getCookie('csrftoken');
+
+		if (document.querySelector(".create_poll_button")){
+			document.querySelector(".create_poll_button").addEventListener("click", function(){
+				window.open("{% url 'poll:create_poll' %}", '_self')
+			})
+		}
+
+		if (document.querySelector(".home_button")){
+			document.querySelector(".home_button").addEventListener("click", function(){
+				window.open("{% url 'poll:home' %}", '_self')
+			})
+		}
+
+		if (document.querySelector(".all_poll_button")){
+			document.querySelector(".all_poll_button").addEventListener("click", function(){
+				window.open("{% url 'poll:show_polls' %}", '_self')
+			})
+		}
+
+
+		if (document.querySelector(".form_button")) {
+			document.querySelector(".form_button").addEventListener("click", function() {
+				
+				let form = document.createElement('form')
+				form.setAttribute('action', "{% url 'poll:login' %}")
+				form.setAttribute('method', 'POST')
+
+				let input = document.createElement('input')
+				input.setAttribute('name', 'csrfmiddlewaretoken')
+				input.setAttribute('type', 'hidden')
+				input.value = csrftoken
+				form.appendChild(input)
+
+				input = document.createElement('input')
+				input.setAttribute('name', 'username')
+				input.setAttribute('type', 'text')
+				input.value = document.querySelector('.username').value
+				form.appendChild(input)
+
+				input = document.createElement('input')
+				input.setAttribute('name', 'password')
+				input.setAttribute('type', 'password')
+				input.value = document.querySelector('.password').value
+				form.appendChild(input)
+
+				input = document.createElement('input')
+				input.setAttribute('name', 'submit')
+				input.setAttribute('type', 'submit')
+				input.value = 'submit'
+				form.appendChild(input)
+				form.style.visibility = 'hidden';
+				document.querySelector('body').appendChild(form)
+				input.click();
+			})			
+
+		}
+	</script>
+</body>
+</html>

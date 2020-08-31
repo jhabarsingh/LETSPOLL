@@ -1,0 +1,186 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Let's poll</title>
+    <link rel="icon" href="{% static 'img/survey.png' %}" type="image/png" sizes="16x16">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap');
+      #main {
+        background: lightgreen;
+        min-height:100vh;
+        color: balck;
+        font-family: 'Gamja Flower', cursive;
+      }
+
+      form {
+        padding: 30px;
+        margin: auto;
+        transform: scale(.8);
+        box-shadow: 0 0 40px rgba(0, 0, 0, .3);
+        border-radius: 20px;
+      }
+
+      .question {
+        font-size: 30px;
+        font-weight: bold;
+        margin: auto;
+        padding-top: 10px;
+        margin-bottom: 20px;
+        animation : 10s linear alibaba infinite;
+      }
+
+      @keyframes alibaba {
+        0%, 50%, 100% {
+
+        }
+        25% {
+          transform: rotate(1deg);
+        }
+        75% {
+          transform: rotate(-1deg);
+        }
+      }
+      label{
+          font-size: 25px;
+          margin-left: 10px;
+
+      }
+
+      .let {
+        font-size: 40px;
+        font-weight: bold;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 38cd1199-25eb-4823-b3a6-1abc029d7221 -->
+      <div id="main">
+        <p class='let'> Let's Poll</p>
+        <form>
+          <div class='text-align-center'>
+              <div class='question text-align-center'></div>
+              <div class='option'>
+               
+              </div>
+          </div>
+        <button type="submit" class="btn btn-primary submit">Submit</button>
+      </form>        
+      </div>
+
+    <script>
+      if(localStorage.getItem('{{id}}') == 'true') {
+          window.open( "{% url 'poll:poll_result' id=id  %}", '_self')
+      }
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');  
+
+
+      let ques ;
+      let lab = [];
+      let link = "{% url 'poll:get_data' id=id %}"
+      fetch(link, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+            "X-CSRFToken": getCookie("csrftoken"),
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          id: '{{id}}'
+        })
+      }).then((res) => {
+        return res.json()
+      }).then((res) => {
+        ques = res.question
+        res = res.poll_option
+        let html;
+        let labels;
+        document.querySelector('.question').innerText = ques;
+         for(let i=0; i<res.length; i++) {
+            labels = document.createElement('label')
+            labels.setAttribute('key', i+1)
+            labels.innerText = res[i].option
+            let html = document.createElement('div')
+            html.classList.add('form-check')
+            input = document.createElement('input')
+            input.classList.add('form-check-input',  'position-static')
+            input.type = 'radio'
+            input.name = 'option'
+            input.id = res[i].id;
+            input.value = res[i].option
+
+            html.appendChild(input)
+            html.appendChild(labels)
+
+            document.querySelector('.option').appendChild(html)
+         }
+          
+        
+      }).catch(() => {
+
+      })
+
+
+      document.querySelector('.submit').addEventListener('click', (event) => {
+        event.preventDefault();
+          let sol;
+          Object.entries(document.querySelectorAll('[type="radio"]')).map((el) => {
+            if (el[1].checked) {
+              sol = el[1].getAttribute('id')
+            }
+          })
+          if (sol) {
+            localStorage.setItem('{{id}}', 'true');
+              let form = document.createElement('form')
+              form.setAttribute('action', "{% url 'poll:polling' id=id %}")
+              form.setAttribute('method', 'POST')
+
+              let input = document.createElement('input')
+              input.setAttribute('name', 'csrfmiddlewaretoken')
+              input.setAttribute('type', 'hidden')
+              input.value = csrftoken
+              form.appendChild(input)
+
+              input = document.createElement('input')
+              input.setAttribute('name', 'id')
+              input.setAttribute('type', 'number')
+              input.value = +sol
+              form.appendChild(input)
+
+              input = document.createElement('input')
+              input.setAttribute('name', 'submit')
+              input.setAttribute('type', 'submit')
+              input.value = 'submit'
+              form.appendChild(input)
+              form.style.visibility = 'hidden';
+              document.querySelector('body').appendChild(form)
+              input.click();
+              console.log(sol)
+              alert('Thank you for polling')
+          }
+      })
+    </script>
+  </body>
+</html>

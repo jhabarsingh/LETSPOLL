@@ -1,0 +1,396 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Let's poll</title>
+    <link rel="icon" href="{% static 'img/survey.png' %}" type="image/png" sizes="16x16">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+      
+      .main {
+      	overflow: hidden;
+      	display: flex;
+      	height: 100vh;
+      }
+
+      .main > div {
+      	position: absolute;
+      	top:0px;
+      	left:0px;
+      	height: 100vh;
+      	overflow: scroll;
+      }
+
+     .question {
+        background: lightgreen;
+        min-height: 100vh;
+        width: 100%;
+        z-index: 1;
+      }
+
+      .question > p:nth-child(1) {
+      	font-family: 'Gamja Flower', cursive;
+      	text-align: center;
+      	padding-top: 10px;
+      	padding-bottom: 10px;
+      	font-size: 50px;
+      }
+
+      .sec-p {
+      	font-family: 'Gamja Flower', cursive;
+      	text-align: center;
+      	padding-top: 10px;
+      	padding-bottom: 0px;
+      	font-size: 25px;
+      	display: inline-block;
+      }
+
+      div > div {
+      	text-align: center;
+      }
+      .sec-p + input {
+      	width: 70px;
+      	margin-left: 10px;
+      	font-weight: bolder;
+      }
+
+
+      .question > textarea {
+      	width: 90%;
+      	margin-left:5%;
+      	min-height:40vh;
+      	border:1px solid lightgreen;
+      	outline: none;
+      	font-size: 25px;
+      	font-family: ubuntu;
+      	font-weight: bold;
+      	background: linear-gradient(45deg, white, #fff);
+      	font-style: italic;
+      }
+
+      .poll-option	 {
+        background: lightgreen;
+        min-height: 100vh;
+        width: 100%;
+        z-index: 0;
+      	height: 100vh;
+      	overflow: scroll;
+      }
+
+      .poll-option > p:nth-child(1) {
+      	font-family: 'Gamja Flower', cursive;
+      	text-align: center;
+      	padding-top: 10px;
+      	padding-bottom: 10px;
+      	font-size: 40px;
+      }
+
+      .lg {
+      	position: absolute;
+      	width: 100px;
+      	min-height: 100px;
+      	bottom: 0px;
+      	right: 0px;
+      	z-index: 3;
+      	overflow: hidden;
+      }
+      .logout-circle {
+      	width: 200px;
+      	height: 200px;
+      	background: violet;
+      	position: absolute;
+      	bottom: -100px;
+      	right:-100px;
+      	z-index: 3;
+      	border-radius: 50%;
+      	transition: 300ms linear;
+      	cursor: pointer;
+      }
+
+      .logout-circle:hover {
+      	background: blue;
+      	transition: 300ms linear;
+      }
+
+      i {
+      	position: relative;
+      	bottom: -70px;
+      	right: 15px;
+      	width: 100px;
+      }
+
+      .alla {
+      	animation: 400ms up-down linear forwards; 
+      	position: absolute;
+      	padding: 20px;
+
+      }
+
+      .alla:hover {
+      	transform: translateY(-1px);
+      }
+      @keyframes up-down {
+      	from {
+      		top: -500px;
+      	}
+      	to {
+      		top: 20vh;
+      	}
+      }
+
+    </style>
+  </head>
+  <body>
+  	<div class='lg'>
+  		<div class='logout-circle'>
+  			  <i class="large material-icons">lock_outline</i>
+  		</div>
+  	</div>
+  	<div class='main'>
+  		<div class='question'>
+	      	<p>Type The Question ?</p> 
+	      	<textarea></textarea>
+	      	<div>
+	      		<p class='sec-p'>No Of Options It Has</p>
+	      		<input type="number" class='values'>
+	      	</div>
+	      	<button class='btn btn-danger d-block mx-auto w-25 mt-4 question-next' >Next</button>
+	    </div>
+
+	    <div class='poll-option pb-3'>
+	      	<p>Type The Poll Options</p>
+	      	<div class="polls">
+	      		
+	      	</div>
+	      	<button class='btn btn-warning mx-auto w-25 mt-4 question-next reset-question' >Reset</button>
+	      	<button class='btn btn-danger  mx-auto w-25 mt-4 question-next submit-question' >Submit</button>
+	    </div>
+
+  	</div>
+  </body>
+
+  <script>
+
+  	function insertPoll() {
+  		polls = document.querySelector('.poll-option > .polls')
+  		let len = polls.children.length;
+
+    	if (len != localStorage.getItem('options') && localStorage.getItem('options')) {
+	  		polls.innerHTML= "";
+	    	let val = localStorage.getItem('options');
+	    	for(let i=0; i< val; i++) {
+		    	let poll = document.createElement('input')
+		    	poll.setAttribute('placeholder', i + 1 + ' Poll Option')
+		    	poll.setAttribute('placeholder', i + 1 + ' Poll Option')
+		    	poll.style.textAlign = 'center';
+		    	poll.style.width = '90%';
+		    	poll.style.marginBottom = '20px';
+		    	poll.style.outline = 'none';
+		    	poll.style.height = '80px'; 
+		    	poll.style.border = '1px solid lightgreen';
+		    	poll.style.fontFamily = 'ubuntu';
+		    	poll.style.fontWeight = 'bolder';
+		    	poll.style.fontStyle = 'italic';
+		    	polls.style.fontSize = '20px';
+		    	polls.appendChild(poll);
+		    }	
+	    }
+	    add_listener();
+  	}
+
+  	if (localStorage.getItem('question')) {
+  		document.querySelector('textarea').value = localStorage.getItem('question');
+  	}
+  	if (localStorage.getItem('options')) {
+  		document.querySelector('.values').value = localStorage.getItem('options');
+  		for(let i=0; i<localStorage.getItem('options'); i++) {
+  			if (localStorage.getItem("option"+ (i+1))) {
+  				insertPoll();
+  				document.querySelector('.poll-option > .polls').children[i].value = localStorage.getItem("option"+ (i+1));
+  			}
+  		}
+  	}
+
+  	let ques = document.querySelector('.question'); 
+  	let opt = document.querySelector('.poll-option');
+    document.querySelector('.question-next').addEventListener("click", function() {
+    	localStorage.setItem('question', document.querySelector('textarea').value);
+    	localStorage.setItem('options', document.querySelector('.values').value);
+    	if (+localStorage.getItem('options') <=0 || localStorage.getItem('options') == '' || localStorage.getItem('question') == '') {
+    		alert('details need to be filled and option should be greater than 0');
+    	}
+    	else {
+    		ques.style.zIndex = 0;
+	    	opt.style.zIndex = 1;
+	    	localStorage.setItem('current', '2');
+	    	insertPoll();
+    	}
+    })
+
+    insertPoll();
+    
+    if (localStorage.getItem('current') == 2) {
+  		ques.style.zIndex = 0;
+    	opt.style.zIndex = 1;
+  	}
+
+    document.querySelector('.reset-question').addEventListener("click", function() {
+    	ques.style.zIndex = 1;
+    	opt.style.zIndex = 0;
+    	localStorage.clear();
+    	document.querySelector('.poll-option > .polls').innerHTML = '';
+    	document.querySelector('textarea').value = '';
+    	document.querySelector('.values').value = '';
+    	localStorage.setItem('current', '1');
+    })
+
+
+    function add_listener() {
+    	console.log(Object.entries(document.querySelector('.poll-option > .polls').children).length);
+	    if (Object.entries(document.querySelector('.poll-option > .polls').children).length) {
+	    	Object.entries(document.querySelector('.poll-option > .polls').children).map((element, index) => {
+	    		element[1].addEventListener("change", () => {
+	    			localStorage.setItem('option' + (index + 1), element[1].value);
+	    		})
+	    	})
+	    }
+    }
+
+// CSRF PART
+
+   function getCookie(name) {
+		    let cookieValue = null;
+		    if (document.cookie && document.cookie !== '') {
+		        const cookies = document.cookie.split(';');
+		        for (let i = 0; i < cookies.length; i++) {
+		            const cookie = cookies[i].trim();
+		            // Does this cookie string begin with the name we want?
+		            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+		                break;
+		            }
+		        }
+		    }
+		    return cookieValue;
+		}
+		const csrftoken = getCookie('csrftoken');
+
+
+
+    document.querySelector('.submit-question').addEventListener("click", function() {
+    	let options = [];
+    	for(let i=0; i<localStorage.getItem('options'); i++) {
+    		options.push(localStorage.getItem('option' + (i+1)));
+    	}
+    	console.log(options);
+
+    	let form = document.createElement('form')
+		form.setAttribute('action', "{% url 'poll:save_poll' %}")
+		form.setAttribute('method', 'POST')
+
+		let input = document.createElement('input')
+		input.setAttribute('name', 'csrfmiddlewaretoken')
+		input.setAttribute('type', 'hidden')
+		input.value = csrftoken
+		form.appendChild(input)
+
+		input = document.createElement('input')
+		input.setAttribute('name', 'question')
+		input.setAttribute('type', 'text')
+		input.value = localStorage.getItem('question')
+		form.appendChild(input)
+
+		input = document.createElement('input')
+		input.setAttribute('name', 'options')
+		input.setAttribute('type', 'number')
+		input.value = localStorage.getItem('options')
+		form.appendChild(input)
+
+		for(let i=0; i<options.length; i++) {
+			input = document.createElement('input')
+			input.setAttribute('name', 'option'+(i+1))
+			input.setAttribute('type', 'text')
+			input.value = options[i]
+			form.appendChild(input)			
+		}
+
+
+		input = document.createElement('input')
+		input.setAttribute('name', 'submit')
+		input.setAttribute('type', 'submit')
+		input.value = 'submit'
+		form.appendChild(input)
+		form.style.visibility = 'hidden';
+		document.querySelector('body').appendChild(form)
+		input.click();
+		alert('poll is saved in the database ')
+    })
+
+
+    document.querySelector('.logout-circle').addEventListener("click", () => {
+    	let a = "<p style='text-align:center;font-family:ubuntu;font-size:20px;font-weight:bolder;'>Are You Sure You Want To Logout 	</p><div><button class='btn btn-primary mr-4 canceller '>Cancel</button><button class='btn btn-danger logouter'>Logout</button></div>"
+    	let modal = document.createElement('div');
+    	let blur = document.createElement('blur');
+    	blur.style.position = 'absolute'
+    	blur.style.width = '100vw';
+    	blur.style.height = '100vh';
+    	blur.style.background = 'rgba(0, 0, 0, .8)'
+    	blur.style.zIndex = 5;
+    	blur.style.top = '0px';
+    	modal.style.width = "70%";
+    	modal.classList.add('alla');
+    	modal.style.background = "silver";
+    	modal.style.marginLeft = '15%'
+    	modal.style.boxShadow = '0 0 50px rgba(0, 0, 0, .1)'
+    	modal.style.position = 'absolute';
+    	modal.style.zIndex = 6;
+    	modal.style.top= '20vh';
+    	modal.style.minHeight = '200px';
+    	modal.style.borderRadius = '10px';
+    	modal.innerHTML = a;
+    	document.querySelector('body').appendChild(blur)
+    	document.querySelector('body').appendChild(modal)
+
+
+    	document.querySelector('.canceller ').addEventListener('click', () => {
+    		document.querySelector('body').removeChild(modal)
+    		document.querySelector('body').removeChild(blur)
+    	})
+
+    	document.querySelector('.logouter ').addEventListener('click', () => {
+    		let form = document.createElement('form')
+			form.setAttribute('action', "{% url 'poll:logout' %}")
+			form.setAttribute('method', 'POST')
+
+			let input = document.createElement('input')
+			input.setAttribute('name', 'csrfmiddlewaretoken')
+			input.setAttribute('type', 'hidden')
+			input.value = csrftoken
+			form.appendChild(input)
+
+			input = document.createElement('input')
+			input.setAttribute('name', 'logout')
+			input.setAttribute('type', 'text')
+			input.value = 'ok'
+			form.appendChild(input)
+
+			input = document.createElement('input')
+			input.setAttribute('name', 'submit')
+			input.setAttribute('type', 'submit')
+			input.value = 'submit'
+			form.appendChild(input)
+			form.style.visibility = 'hidden';
+			document.querySelector('body').appendChild(form)
+			input.click();
+    	})
+    })
+
+  </script>
+</html>
