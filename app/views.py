@@ -29,7 +29,6 @@ def save_poll(request, *args, **kwargs):
 	for i in range(int(options)):
 		options_arr.append(request.POST.get("option" + str(i+1)))
 
-	print(options_arr)
 	if question:
 		poll = Poll(question=question)
 		poll.save()
@@ -66,10 +65,7 @@ def admin_login(request, *args, **kwargs):
 	username = request.POST.get('username')
 	password = request.POST.get('password')
 	user = authenticate(request, username=username, password=password)
-	print(user)
 	if user:
-		print(1)
-
 		login(request, user)
 		return redirect(reverse('poll:create_poll'))
 	return render(request, 'login.html')
