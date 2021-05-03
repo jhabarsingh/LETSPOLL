@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'app',
     'rest_framework',
     'django_social_share',
-    'storages'
+    'storages',
+    'crispy_forms'
 ]
 
 MIDDLEWARE = [
@@ -143,16 +144,16 @@ SITE_URL = 'http://localhost:8000/'
 
 REAL_SITE = SITE_URL + 'polling/'
 
-AWS_ACCESS_KEY_ID = 'AKIATEO5GSFSFSYFFRK6'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'pollingwebsite'
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
-}
-AWS_LOCATION = 'static'
+# AWS_ACCESS_KEY_ID = 'AKIATEO5GSFSFSYFFRK6'
+# AWS_SECRET_ACCESS_KEY = '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'
+# AWS_STORAGE_BUCKET_NAME = 'pollingwebsite'
+# AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+# AWS_S3_OBJECT_PARAMETERS = {
+#     'CacheControl': 'max-age=86400',
+# }
+# AWS_LOCATION = 'static'
 
-STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+# STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
