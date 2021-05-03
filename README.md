@@ -2,4 +2,4 @@
 let's poll
 
 ### Link
-[LivePoll](https://letuspoll.herokuapp.com/)
+[LivePoll](https://letpoll.herokuapp.com/)
