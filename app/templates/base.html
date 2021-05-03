@@ -40,6 +40,12 @@
 			})
 		}
 
+		if (document.querySelector(".home_button1")){
+			document.querySelector(".home_button1").addEventListener("click", function(){
+				window.open("{% url 'poll:register' %}", '_self')
+			})
+		}
+
 		if (document.querySelector(".all_poll_button")){
 			document.querySelector(".all_poll_button").addEventListener("click", function(){
 				window.open("{% url 'poll:show_polls' %}", '_self')
