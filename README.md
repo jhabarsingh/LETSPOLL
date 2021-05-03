@@ -17,12 +17,9 @@
  
 
 
-## Home page
-![Home Page](https://github.com/jhabarsingh/STAR-DUST/blob/master/static/star.png?raw=true)
+## Website Demo
+![Website Demo](https://github.com/jhabarsingh/LETSPOLL/blob/master/static/img/home.gif?raw=true)
 
-
-## Login page
-![Login Page](https://github.com/jhabarsingh/STAR-DUST/blob/master/static/Selectionshot_2021-01-15_16:46:37.png?raw=true)
 
 
 ## Project Setup On Desktop
