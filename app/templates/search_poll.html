@@ -1,26 +1,35 @@
 <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
 
-<section class="text-gray-400 bg-gray-900 body-font" style="height:100vh;">
+<section class="text-gray-400 bg-gray-900 body-font py-24" >
   <div class="container px-5 py-24 mx-auto">
     <div class="flex flex-col text-center w-full mb-12">
-      <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-white">Search Polls The Creators Username</h1>
+      <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-white">Search Polls By Creator's Username</h1>
       <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Get all the polls created by a user. just type the user's unique username and you are good to go.</p>
     </div>
     <div class="flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:px-0 items-end sm:space-x-4 sm:space-y-0 space-y-4">
-      <div class="relative sm:mb-0 flex-grow w-full">
+      <div class="relative sm:mb-0 flex-grow w-2/3">
         <label for="username" class="leading-7 text-sm text-gray-400">Username</label>
         <input type="text" id="username" name="full-name" class="w-full bg-gray-800 bg-opacity-40 rounded border border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 focus:bg-transparent text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
       </div>
-      <button class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg button">Button</button>
+      <button class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg button">Search</button>
+    </div>
+    <div style="text-align: center;">
+      <button class="inline mx-auto mt-5 text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg home_button">Home</button>
     </div>
   </div>
 </section>
 
 <script type="text/javascript">
   if (document.querySelector(".button")){
-      document.querySelector(".button").addEventListener("click", function(){
-        username = document.querySelector("#username").value;
-        window.open(`/show_polls/${username}`, '_self')
+    document.querySelector(".button").addEventListener("click", function(){
+      username = document.querySelector("#username").value;
+      window.open(`/show_polls/${username}`, '_self')
+    })
+  }
+
+  if (document.querySelector(".home_button")){
+      document.querySelector(".home_button").addEventListener("click", function(){
+        window.open("{% url 'poll:home' %}", '_self')
       })
     }
 </script>
