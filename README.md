@@ -24,15 +24,41 @@
 ## Login page
 ![Login Page](https://github.com/jhabarsingh/STAR-DUST/blob/master/static/Selectionshot_2021-01-15_16:46:37.png?raw=true)
 
-## Setup On Desktop
-[Install node](https://nodejs.org/en/download/) |
-[Install vue/cli](https://cli.vuejs.org/)
+
+## Project Setup On Desktop
+
+### Using venv
 ```bash
- git clone https://github.com/jhabarsingh/STAR-DUST.git
- cd STAR-DUST
- npm install   # Nodejs should be installed
- npm run start # Vuejs should be installed
+git clone https://github.com/jhabarsingh/LETSPOLL.git 
+cd LETSPOLL
+python3 -m venv env # Python 3.6.9 or 3.7.0 version 
+source env/bin/activate
+python3 -m pip install --upgrade pip
+pip install -r requirements.txt
+python manage.py runserver
 ```
+
+### Using conda
+```bash
+git clone https://github.com/jhabarsingh/LETSPOLL.git
+cd LETSPOLL
+conda create -n letspoll python==3.7 
+conda activate letspoll
+python3 -m pip install --upgrade pip
+pip install -r requirements.txt
+python manage.py runserver
+```
+
+### Using Docker
+
+```bash
+sudo apt-get install docker docker-compose # Install docker, docker-compose on linux
+git clone https://github.com/jhabarsingh/LETSPOLL.git
+cd LETSPOLL
+sudo docker-compose up
+```
+
+
 ## [Want To Contribute](https://medium.com/mindsdb/contributing-to-an-open-source-project-how-to-get-started-6ba812301738)
 ### You can contribute to this project in many ways
  1. You can create an issue if you find any bug.
