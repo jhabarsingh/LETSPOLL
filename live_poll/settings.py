@@ -129,7 +129,7 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'static') ]
 
-SITE_URL = 'http://localhost:8000/'
+SITE_URL = 'https://letpoll.herokuapp.com/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
