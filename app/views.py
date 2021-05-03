@@ -83,9 +83,8 @@ def register(request):
 	if form.is_valid():
 		username = form.cleaned_data.get("username")
 		form.save()
-		messages.success(request, f"Account created for {username}")
 		return redirect("poll:login")
-	return render(request, "register.html", {"form": form})
+	return render(request, "register.html", {"form": form, "errors": form.errors.as_json() })
 
 
 def admin_login(request, *args, **kwargs):
