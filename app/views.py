@@ -44,6 +44,8 @@ def save_poll(request, *args, **kwargs):
 	return redirect(reverse('poll:create_poll'))
 
 def show_polls(request, username, *args, **kwargs):
+	if(not User.objects.all().filter(username=username)):
+		return render(request, 'search_poll.html', {'message': 'Invalid User'})
 	id = User.objects.get(username=username).id
 	contact_list = Poll.objects.all().filter(user=id)
 	paginator = Paginator(contact_list, 20)
@@ -52,6 +54,8 @@ def show_polls(request, username, *args, **kwargs):
 	return render(request, 'all_polls.html', {'page_obj': page_obj, 'cs':settings.REAL_SITE})
 
 def show_poll(request, *args, **kwargs):
+	if(not request.user.is_authenticated):
+		return render(request, "search_poll.html")
 	id = User.objects.get(username=request.user).id
 	contact_list = Poll.objects.all().filter(user=id)
 	paginator = Paginator(contact_list, 20)
