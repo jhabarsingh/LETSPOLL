@@ -138,5 +138,6 @@ REAL_SITE = SITE_URL + 'polling/'
 
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 # Activate Django-Heroku.
 django_heroku.settings(locals())
