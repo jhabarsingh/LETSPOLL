@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '7ef8*3cyrn2um^lx4(rh)y*r^j_6qq^%1-@_^v&u49dxcaxvz='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['letpoll.herokuapp.com', 'localhost']
 
