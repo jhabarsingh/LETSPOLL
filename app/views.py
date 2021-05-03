@@ -9,6 +9,9 @@ from .serializers import PollSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response 
 from django.conf import settings
+from app.forms import UserForm
+from django.contrib import messages
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -18,7 +21,7 @@ def home(request, *args, **kwargs):
 
 
 def create_poll(request, *args, **kwargs):
-	if request.user.is_superuser:
+	if request.user.is_authenticated:
 		return render(request, 'create_poll.html')
 	return render(request, 'login.html')
 
@@ -30,7 +33,7 @@ def save_poll(request, *args, **kwargs):
 		options_arr.append(request.POST.get("option" + str(i+1)))
 
 	if question:
-		poll = Poll(question=question)
+		poll = Poll(user=request.user, question=question)
 		poll.save()
 
 	for i in options_arr:
@@ -40,12 +43,21 @@ def save_poll(request, *args, **kwargs):
 
 	return redirect(reverse('poll:create_poll'))
 
-def show_polls(request, *args, **kwargs):
-    contact_list = Poll.objects.all()
-    paginator = Paginator(contact_list, 20)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    return render(request, 'all_polls.html', {'page_obj': page_obj, 'cs':settings.REAL_SITE})
+def show_polls(request, username, *args, **kwargs):
+	id = User.objects.get(username=username).id
+	contact_list = Poll.objects.all().filter(user=id)
+	paginator = Paginator(contact_list, 20)
+	page_number = request.GET.get('page')
+	page_obj = paginator.get_page(page_number)
+	return render(request, 'all_polls.html', {'page_obj': page_obj, 'cs':settings.REAL_SITE})
+
+def show_poll(request, *args, **kwargs):
+	id = User.objects.get(username=request.user).id
+	contact_list = Poll.objects.all().filter(user=id)
+	paginator = Paginator(contact_list, 20)
+	page_number = request.GET.get('page')
+	page_obj = paginator.get_page(page_number)
+	return render(request, 'all_polls.html', {'page_obj': page_obj, 'cs':settings.REAL_SITE})
 
 
 @api_view(['GET', 'POST'])
@@ -61,10 +73,26 @@ def poll_result(request, id, *args, **kwargs):
 	return render(request, 'poll_result.html', {'id':id})
 
 
+def register(request):
+	"""
+	REGISTRATION PAGE FOR PATIENTS
+	"""
+	if request.user.is_authenticated:
+		return redirect("poll:home")
+	form = UserForm(request.POST or None)
+	if form.is_valid():
+		username = form.cleaned_data.get("username")
+		form.save()
+		messages.success(request, f"Account created for {username}")
+		return redirect("poll:login")
+	return render(request, "register.html", {"form": form})
+
+
 def admin_login(request, *args, **kwargs):
 	username = request.POST.get('username')
 	password = request.POST.get('password')
 	user = authenticate(request, username=username, password=password)
+	print(user)
 	if user:
 		login(request, user)
 		return redirect(reverse('poll:create_poll'))
