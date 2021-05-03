@@ -20,11 +20,14 @@ def home(request, *args, **kwargs):
 	return render(request, 'index.html')
 
 
+
 def create_poll(request, *args, **kwargs):
 	if request.user.is_authenticated:
 		return render(request, 'create_poll.html')
 	return render(request, 'login.html')
 
+
+@csrf_exempt
 def save_poll(request, *args, **kwargs):
 	question = request.POST.get('question')
 	options = request.POST.get('options')
@@ -53,6 +56,7 @@ def show_polls(request, username, *args, **kwargs):
 	page_obj = paginator.get_page(page_number)
 	return render(request, 'all_polls.html', {'page_obj': page_obj, 'cs':settings.REAL_SITE})
 
+
 def show_poll(request, *args, **kwargs):
 	if(not request.user.is_authenticated):
 		return render(request, "search_poll.html")
@@ -64,6 +68,7 @@ def show_poll(request, *args, **kwargs):
 	return render(request, 'all_polls.html', {'page_obj': page_obj, 'cs':settings.REAL_SITE})
 
 
+@csrf_exempt
 @api_view(['GET', 'POST'])
 def get_data(request, id, *args, **kwargs):
 	if request.method == 'POST':
@@ -77,6 +82,7 @@ def poll_result(request, id, *args, **kwargs):
 	return render(request, 'poll_result.html', {'id':id})
 
 
+@csrf_exempt
 def register(request):
 	"""
 	REGISTRATION PAGE FOR PATIENTS
@@ -91,6 +97,7 @@ def register(request):
 	return render(request, "register.html", {"form": form, "errors": form.errors.as_json() })
 
 
+@csrf_exempt
 def admin_login(request, *args, **kwargs):
 	if request.user.is_authenticated:
 		return redirect("poll:home")
@@ -103,6 +110,8 @@ def admin_login(request, *args, **kwargs):
 		return redirect(reverse('poll:create_poll'))
 	return render(request, 'login.html')
 
+
+@csrf_exempt
 def polling(request, id, *args, **kwargs):
 	if request.method == 'POST':
 		uid = request.POST.get('id')
@@ -113,6 +122,7 @@ def polling(request, id, *args, **kwargs):
 			return redirect('poll:poll_result', id=id)
 	return render(request, 'polling.html', {'id':id})
 
+@csrf_exempt
 def admin_logout(request, *args, **kwargs):
 	if request.POST.get('logout') == 'ok':
 		logout(request)
