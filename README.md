@@ -1,4 +1,8 @@
-# [LETSPOLL](https://letpoll.herokuapp.com/) <img width="45px" src="https://github.com/jhabarsingh/LETSPOLL/blob/master/static/img/survey.png?raw=true" />
+# [LETSPOLL](https://letpoll.herokuapp.com/) ⚡️ [![GitHub](https://img.shields.io/github/license/jhabarsingh/LETSPOLL)](https://github.com/jhabarsingh/CODECHEF-APP/blob/master/LICENSE) [![GitHub stars](https://img.shields.io/github/stars/jhabarsingh/LETSPOLL)](https://github.com/jhabarsingh/LETSPOLL/stargazers)  [![GitHub contributors](https://img.shields.io/github/contributors/jhabarsingh/LETSPOLL.svg)](https://github.com/jhabarsingh/LETSPOLL/graphs/contributors)  [![GitHub issues](https://img.shields.io/github/issues/jhabarsingh/LETSPOLL.svg)](https://github.com/jhabarsingh/LETSPOLL/issues) [![GitHub forks](https://img.shields.io/github/forks/jhabarsingh/LETSPOLL.svg?style=social&label=Fork)](https://GitHub.com/jhabarsingh/LETSPOLL/network/)
+
+<p align="center">
+  <img src="https://github.com/jhabarsingh/LETSPOLL/blob/master/static/img/survey.png?raw=true" />
+</p>
 
 
 <details>
