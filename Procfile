@@ -1,1 +1,1 @@
-web: gunicorn letspoll.wsgi
+gunicorn live_poll.wsgi:application
