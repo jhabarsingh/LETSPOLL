@@ -17,7 +17,11 @@
 ![Website Demo](https://github.com/jhabarsingh/LETSPOLL/blob/master/static/img/home.gif?raw=true)
  
 [**LETSPOLL**](https://letpoll.herokuapp.com/)  is an Open Source and Free Web App built using Django for creating Polls and Let you share the poll's result with others.
- 
+It has the following features:
+  1. You can create a Poll once Registered.
+  2. Generate Unique Url for every poll so that you can share It with others.
+  3. Poll results are displayed using charts.
+  4. You can search all the polls created by a user
 
 ## Project Setup On Desktop
 
