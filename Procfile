@@ -1,1 +1,1 @@
-gunicorn live_poll.wsgi:application
+web: gunicorn live_poll.wsgi
