@@ -142,6 +142,8 @@ STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'static') ]
 
 SITE_URL = 'http://localhost:8000/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
 REAL_SITE = SITE_URL + 'polling/'
 
 # AWS_ACCESS_KEY_ID = 'AKIATEO5GSFSFSYFFRK6'
