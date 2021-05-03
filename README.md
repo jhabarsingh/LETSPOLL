@@ -1,4 +1,4 @@
-# [LETSPOLL <img width="50px" src="https://github.com/jhabarsingh/LETSPOLL/blob/master/static/img/survey.png?raw=true" />](https://letpoll.herokuapp.com/)
+# [LETSPOLL <img width="45px" src="https://github.com/jhabarsingh/LETSPOLL/blob/master/static/img/survey.png?raw=true" />](https://letpoll.herokuapp.com/)
 
 
 <details>
