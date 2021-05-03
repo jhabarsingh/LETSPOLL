@@ -89,6 +89,8 @@ def register(request):
 
 
 def admin_login(request, *args, **kwargs):
+	if request.user.is_authenticated:
+		return redirect("poll:home")
 	username = request.POST.get('username')
 	password = request.POST.get('password')
 	user = authenticate(request, username=username, password=password)
