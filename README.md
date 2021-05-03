@@ -13,14 +13,11 @@
 </details>
 
 ## About
- [**LETSPOLL**](https://letpoll.herokuapp.com/)  is an Open Source and Free Web App built using Django for creating Polls and Let you share the poll's result with others.
- 
 
-
-## Website Demo
 ![Website Demo](https://github.com/jhabarsingh/LETSPOLL/blob/master/static/img/home.gif?raw=true)
-
-
+ 
+[**LETSPOLL**](https://letpoll.herokuapp.com/)  is an Open Source and Free Web App built using Django for creating Polls and Let you share the poll's result with others.
+ 
 
 ## Project Setup On Desktop
 
